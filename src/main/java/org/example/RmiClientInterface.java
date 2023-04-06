@@ -12,4 +12,6 @@ public interface RmiClientInterface extends Remote {
     RmiClientInterface getClient()throws RemoteException;
 
     void startGame(ObjectCard[][] grid, ObjectCard[][] initlibrary)throws RemoteException;
+
+    void printSomethig(String string)throws RemoteException;
 }

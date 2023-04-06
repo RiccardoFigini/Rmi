@@ -9,6 +9,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Client {
     private final String name;
@@ -16,17 +18,17 @@ public class Client {
     private final ThreadOutputClient threadOutputClient;
     private Deque<String> commandForOutput;
     private Status status;
-
     private RmiClientInterface rmiClient;
 
-    Object lock;
+    private Lock lock;
+
 
     public Client(String name){
-        lock = new Object();
-        commandForOutput = new ArrayDeque<>();
         this.name=name;
+        lock = new ReentrantLock();
+        commandForOutput = new ArrayDeque<>();
         threadInputClient = new ThreadInputClient(this, lock);
-        threadOutputClient = new ThreadOutputClient( this);
+        threadOutputClient = new ThreadOutputClient( this, lock);
         status = Status.BEFOREGAME;
     }
 
@@ -79,6 +81,13 @@ public class Client {
 
     public void initLibrary(ObjectCard[][] objectCards){
         //TODO inizializza tutte le librerie dei giocatori
+    }
+
+    public void addSomethingToPrint(String s){
+        lock.lock();
+        commandForOutput.add("#text"+s);
+        System.out.println("Riempito");
+        lock.unlock();
     }
 
 }

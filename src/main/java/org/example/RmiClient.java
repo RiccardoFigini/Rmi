@@ -37,4 +37,9 @@ public class RmiClient extends UnicastRemoteObject implements RmiClientInterface
         client.initThread();
         System.out.println("Sono partito");
     }
+
+    @Override
+    public void printSomethig(String string)throws RemoteException{
+        client.addSomethingToPrint(string);
+    }
 }

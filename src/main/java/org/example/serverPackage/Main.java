@@ -34,8 +34,16 @@ public class Main {
 
         rmiClient.startGame(null, null);
         System.out.println("Ho lanciato il client");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine().trim();
-        rmiClient.notifyTurn();
+        System.out.println("Iniziamo a mandare una serie di messaggi");
+        i=0;
+        while (i<=20){
+            i++;
+            try {
+                Thread.sleep(2000);
+            }
+            catch (Exception e) {throw new RuntimeException();}
+            System.out.println(i);
+            rmiClient.printSomethig("Scrittura test numero: "+i);
+        }
     }
 }
